@@ -33,15 +33,16 @@ const getRandomNumberWithPoint = (min, max, fraction) => {
   return NaN;
 };
 
-const createObject = function() {
-  const getRandomPhotoNumber = String(getRandomNumber(1, 10));
+const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
+
+const createObject = () => {
+  const randomPhotoNumber = String(getRandomNumber(1, 10));
   const lat = getRandomNumberWithPoint(35.65000, 35.70000, 5);
   const lng = getRandomNumberWithPoint(139.70000, 139.80000, 5);
-  const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
   return {
     author: {
-      avatar: `img/avatars/user${getRandomPhotoNumber.length < 2 ? '0' : ''}${getRandomPhotoNumber}.png`
+      avatar: `img/avatars/user${randomPhotoNumber.length < 2 ? '0' : ''}${randomPhotoNumber}.png`
     },
     offer: {
       title: getRandomArrayElement(TITLES),
