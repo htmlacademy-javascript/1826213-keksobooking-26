@@ -51,4 +51,3 @@ const createObject = () => {
 
 export const objectsArray = Array.from({length: 10}, createObject);
 
-console.log(objectsArray)
