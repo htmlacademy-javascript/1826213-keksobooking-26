@@ -1,4 +1,4 @@
-import {getRandomNumber, getRandomNumberWithPoint} from './utils.js';
+import {getRandomNumber, getRandomNumberWithPoint, getRandomArrayElement} from './utils.js';
 
 const CHECK_TIMES = ['12:00', '13:00', '13:00'];
 const HOUSING_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
@@ -19,7 +19,6 @@ const DESCRIPTIONS = [
   'Бассейн и зона барбекю во дворе, ежедневная уборка, прачечная, пиццерия в здании',
   'Отсутствие тараканов, чистый туалет, отсутствует ржавчина в водопроводной воде, никаких сюрпризов в диване, лучшие условия!'
 ];
-const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
 const createObject = () => {
   const randomPhotoNumber = String(getRandomNumber(1, 10));
@@ -51,3 +50,4 @@ const createObject = () => {
 };
 
 export const objectsArray = Array.from({length: 10}, createObject);
+

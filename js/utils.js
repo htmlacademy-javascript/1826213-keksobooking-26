@@ -12,4 +12,6 @@ const getRandomNumberWithPoint = (min, max, fraction) => {
   return NaN;
 };
 
-export {getRandomNumber, getRandomNumberWithPoint};
+const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
+
+export {getRandomNumber, getRandomNumberWithPoint, getRandomArrayElement};
