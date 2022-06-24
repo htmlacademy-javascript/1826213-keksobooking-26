@@ -3,5 +3,10 @@ import {createProposition} from './generate-layout.js';
 import { getRandomArrayElement } from './utils.js';
 
 const adInput = document.querySelector('#map-canvas');
+let arrayPropositions = [];
 
-adInput.append(createProposition(getRandomArrayElement(objectsArray)));
+for (let i = 0; i < objectsArray.length; i++) {
+  arrayPropositions[i] = createProposition(objectsArray[i]);
+}
+
+adInput.append(getRandomArrayElement(arrayPropositions));
