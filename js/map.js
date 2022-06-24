@@ -1,6 +1,7 @@
 import {objectsArray} from './data-generation.js';
 import {createProposition} from './generate-layout.js';
+import { getRandomArrayElement } from './utils.js';
 
-const propositionInput = document.querySelector('#map-canvas');
+const adInput = document.querySelector('#map-canvas');
 
-propositionInput.append(createProposition(objectsArray[3]));
+adInput.append(createProposition(getRandomArrayElement(objectsArray)));

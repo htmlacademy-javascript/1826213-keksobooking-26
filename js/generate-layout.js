@@ -46,7 +46,7 @@ const createProposition = (obj) => {
     const featuresList = offerFeaturesContainer.querySelectorAll('.popup__feature');
     featuresList.forEach((featuresListItem) => {
       const included = features.some(
-        (feature) => featuresListItem.classList.contains(`popup__feature--${feature}`),);
+        (feature) => featuresListItem.classList.contains(`popup__feature--${feature}`));
       if (!included) {
         featuresListItem.remove();
       }
