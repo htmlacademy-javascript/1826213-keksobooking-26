@@ -57,9 +57,14 @@ const createProposition = (obj) => {
 
   offerDescription.textContent = checkAvailability(offerDescription, description);
   offerPhotosContainer.innerHTML = '';
-  photos.forEach((photo) => {
-    offerPhotosContainer.insertAdjacentHTML('beforeend', `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`);
-  });
+
+  if (photos) {
+    photos.forEach((photo) => {
+      offerPhotosContainer.insertAdjacentHTML('beforeend', `<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`);
+    });
+  } else {
+    offerPhotosContainer.remove();
+  }
 
   return postItem;
 };
