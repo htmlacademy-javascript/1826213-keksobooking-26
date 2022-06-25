@@ -28,6 +28,5 @@ const getEnabledCondition = () => {
 };
 
 getDisabledCondition();
-getEnabledCondition();
 
 export {getDisabledCondition, getEnabledCondition};
