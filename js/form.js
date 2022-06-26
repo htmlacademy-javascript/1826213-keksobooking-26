@@ -3,7 +3,7 @@ const formFilter = document.querySelector('.map__filters');
 const formAdInteractiveElements = formAd.querySelectorAll('fieldset');
 const formFilterInteractiveElements = formFilter.querySelectorAll(['select', 'fieldset']);
 
-const getDisabledCondition = () => {
+const setDisabledCondition = () => {
   formAd.classList.add('ad-form--disabled');
   formFilter.classList.add('ad-form--disabled');
   formAdInteractiveElements.forEach((element) => {
@@ -15,7 +15,7 @@ const getDisabledCondition = () => {
   });
 };
 
-const getEnabledCondition = () => {
+const setEnabledCondition = () => {
   formAd.classList.remove('ad-form--disabled');
   formFilter.classList.remove('ad-form--disabled');
   formAdInteractiveElements.forEach((element) => {
@@ -27,6 +27,6 @@ const getEnabledCondition = () => {
   });
 };
 
-getDisabledCondition();
+setDisabledCondition();
 
-export {getDisabledCondition, getEnabledCondition};
+export {setDisabledCondition, setEnabledCondition};
