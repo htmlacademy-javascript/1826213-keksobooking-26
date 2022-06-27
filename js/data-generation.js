@@ -1,6 +1,6 @@
 import {getRandomNumber, getRandomNumberWithPoint, getRandomArrayElement} from './utils.js';
 
-const CHECK_TIMES = ['12:00', '13:00', '13:00'];
+const CHECK_TIMES = ['12:00', '13:00', '14:00'];
 const HOUSING_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const FEATURES_TYPES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const ROOMS_PHOTOS = [
