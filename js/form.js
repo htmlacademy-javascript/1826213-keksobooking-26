@@ -4,14 +4,8 @@ const formAdInteractiveElements = formAd.querySelectorAll('fieldset');
 const formFilterInteractiveElements = formFilter.querySelectorAll(['select', 'fieldset']);
 // const formTitleInput = formAd.querySelector('#title');
 // const formPriceInput = formAd.querySelector('#price');
-const formRoomNumberInput = formAd.querySelector('#room-number');
-const formRoomCapacityInput = formAd.querySelector('#capacity');
-
-const pristine = new Pristine(formAd, {
-  classTo: 'ad-form__element',
-  errorTextParent: 'ad-form__element',
-  errorTextClass: 'ad-form__error-text',
-});
+const formRoomNumberInput = formAd.querySelector('[name="rooms"]');
+const formRoomCapacityInput = formAd.querySelector('[name="capacity"]');
 
 const ROOMS_CAPACITY = {
   '1': ['1'],
@@ -20,26 +14,24 @@ const ROOMS_CAPACITY = {
   '100': ['0'],
 };
 
+const pristine = new Pristine(formAd, {
+  classTo: 'ad-form__element',
+  errorTextParent: 'ad-form__element',
+  errorTextClass: 'ad-form__error-text',
+});
 
-//synchronize rooms and capacity
-const validateCapacity = () => ROOMS_CAPACITY[formRoomNumberInput.value].includes(formRoomCapacityInput.value);
-pristine.addValidator(formRoomCapacityInput, validateCapacity, 'Пожалуйста, выберите верное количество гостей или комнат', 1, false);
+const validateCapacity = (value) => ROOMS_CAPACITY[formRoomNumberInput.value].includes(value);
 
-if (validateCapacity) {
-  console.log('form is ok');
-} else {
-  console.log('form is not ok');
-}
+pristine.addValidator(formRoomCapacityInput, validateCapacity, 'Выберите верное количество комнат и гостей');
 
-formRoomNumberInput.addEventListener('change', () => {
+formAd.addEventListener('change', () => {
   pristine.validate(formRoomCapacityInput);
 });
 
 formAd.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-  // const valid = pristine.validate();
-  // alert(valid);
+  if(!pristine.validate()) {
+    evt.preventDefault();
+  }
 });
 
 const setDisabledCondition = () => {
