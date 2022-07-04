@@ -11,6 +11,8 @@ const formHousingTypes = formAd.querySelector('#type');
 const formCheckIn = formAd.querySelector('#timein');
 const formCheckOut = formAd.querySelector('#timeout');
 const formTimeParent = formAd.querySelector('.ad-form__element--time');
+const formAddress = formAd.querySelector('#address');
+const sliderElement = formAd.querySelector('.ad-form__slider');
 
 const ROOMS_CAPACITY = {
   '1': ['1'],
@@ -78,10 +80,13 @@ const pristine = new Pristine(formAd, {
 });
 
 
-// Set minimal price in placeholder and min attribute
+// Set minimal price in placeholder, min attribute and
 formHousingTypes.addEventListener('change', () => {
   formPriceInput.placeholder = getMinPrice();
   formPriceInput.min = getMinPrice();
+  sliderElement.noUiSlider.updateOptions({
+    start: getMinPrice(),
+  });
 });
 
 
@@ -116,4 +121,28 @@ formAd.addEventListener('submit', (evt) => {
   }
 });
 
-export {setDisabledCondition, setEnabledCondition};
+//Slider for price
+noUiSlider.create(sliderElement, {
+  range: {
+    min: getMinPrice(),
+    max: MAX_HOUSING_PRICE,
+  },
+  start: getMinPrice(),
+  step: 1,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
+
+sliderElement.noUiSlider.on('update', () => {
+  formPriceInput.value = sliderElement.noUiSlider.get();
+  pristine.validate(formPriceInput);
+});
+
+export {setDisabledCondition, setEnabledCondition, formAddress};

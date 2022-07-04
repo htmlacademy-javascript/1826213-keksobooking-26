@@ -5,7 +5,10 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="./leaflet/leaflet.css">
+  <link rel="stylesheet" href="./nouislider/nouislider.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./leaflet/leaflet.css">
   <title>Кексобукинг</title>
 </head>
 
@@ -21,7 +24,7 @@
     <section class="map">
 
       <!-- Блок для вставки карты -->
-      <div class="map__canvas" id="map-canvas"></div>
+      <div class="map__canvas" id="map-canvas" height="500" width="auto"></div>
 
       <!-- Фильтрация объявлений -->
       <div class="map__filters-container">
@@ -103,7 +106,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text">
+          <input id="address" name="address" type="text" readonly>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -251,6 +254,8 @@
     </div>
   </template>
   <script async src="./pristine/pristine.min.js"></script>
+  <script src="./leaflet/leaflet.js" crossorigin=""></script>
+  <script src="./nouislider/nouislider.js"></script>
   <script src="./js/main.js" type="module"></script>
 </body>
 
