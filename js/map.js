@@ -1,4 +1,6 @@
 import {setEnabledCondition, formAddress} from './form.js';
+import {createProposition} from './generate-layout.js';
+import {objectsArray} from './data-generation.js';
 
 const map = L.map('map-canvas')
   .on('load', setEnabledCondition)
@@ -38,6 +40,28 @@ L.tileLayer(
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
+
+
+const arrayPropositions = [];
+
+for (let i = 0; i < objectsArray.length; i++) {
+  arrayPropositions[i] = createProposition(objectsArray[i]);
+}
+
+function getMarker (elem) {
+  const marker = L.marker(
+    {
+      lat: elem.location.lat,
+      lng: elem.location.lng,
+    },
+  );
+  marker.addTo(map).bindPopup(createProposition(elem));
+}
+
+objectsArray.forEach(
+  getMarker
+);
+
 
 // 1. Удалите код отрисовки одного из сгенерированных DOM-элементов объявления, который был нужен только для разработки.
 
