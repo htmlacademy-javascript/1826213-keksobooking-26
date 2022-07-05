@@ -52,6 +52,8 @@ const setDisabledCondition = () => {
   formFilterInteractiveElements.forEach((element) => {
     element.setAttribute('disabled', 'disabled');
   });
+
+  sliderElement.noUiSlider.destroy();
 };
 
 
@@ -69,9 +71,13 @@ const setEnabledCondition = () => {
 
   formPriceInput.placeholder = getMinPrice();
   formPriceInput.min = getMinPrice();
+
+  sliderElement.noUiSlider.updateOptions({
+    start: getMinPrice(),
+    padding: [getMinPrice(), 0],
+  });
 };
 
-setEnabledCondition();
 
 const pristine = new Pristine(formAd, {
   classTo: 'ad-form__element',
@@ -80,12 +86,13 @@ const pristine = new Pristine(formAd, {
 });
 
 
-// Set minimal price in placeholder, min attribute and
+// Set minimal price in placeholder, min attribute and slider
 formHousingTypes.addEventListener('change', () => {
   formPriceInput.placeholder = getMinPrice();
   formPriceInput.min = getMinPrice();
   sliderElement.noUiSlider.updateOptions({
     start: getMinPrice(),
+    padding: [getMinPrice(), 0],
   });
 });
 
@@ -103,8 +110,11 @@ const validatePrice = (value) => value >= getMinPrice() && value <= MAX_HOUSING_
 const getPriceErrorMessage = () => `Не менее ${getMinPrice()} и не более 100000`;
 pristine.addValidator(formPriceInput, validatePrice, getPriceErrorMessage);
 
-formAd.addEventListener('input', () => {
-  pristine.validate(formPriceInput);
+
+//input
+formPriceInput.addEventListener('change', () => {
+  // pristine.validate(formPriceInput);
+  sliderElement.noUiSlider.set(formPriceInput.value);
 });
 
 
@@ -124,7 +134,7 @@ formAd.addEventListener('submit', (evt) => {
 //Slider for price
 noUiSlider.create(sliderElement, {
   range: {
-    min: getMinPrice(),
+    min: 0,
     max: MAX_HOUSING_PRICE,
   },
   start: getMinPrice(),
