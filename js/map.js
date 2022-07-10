@@ -1,10 +1,12 @@
 import {setEnabledCondition, formAddress} from './form.js';
 import {createProposition} from './generate-layout.js';
-import {objectsArray} from './data-generation.js';
+// import {objectsArray} from './data-generation.js';
+// import {getData} from './api.js';
 
+const OBJECTS_AMOUNT = 10;
 const INITIAL_COORDINATES = {
-  lat: 35.84453,
-  lng: 140.17456,
+  lat: 35.62828,
+  lng: 139.74472,
 };
 
 const map = L.map('map-canvas')
@@ -48,7 +50,13 @@ const pinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-const createMarker = (element) => {
+mainPinMarker.on('moveend', (evt) => {
+  const lat = evt.target.getLatLng().lat;
+  const lng = evt.target.getLatLng().lng;
+  formAddress.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+});
+
+const renderMarker = (element) => {
   const pinMarker = L.marker(
     {
       lat: element.location.lat,
@@ -61,13 +69,10 @@ const createMarker = (element) => {
   pinMarker.addTo(markerGroup).bindPopup(createProposition(element));
 };
 
-mainPinMarker.on('moveend', (evt) => {
-  const lat = evt.target.getLatLng().lat;
-  const lng = evt.target.getLatLng().lng;
-  formAddress.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-});
+const renderMarkers = (array) => {
+  array.slice(0, OBJECTS_AMOUNT - 1).forEach((element) => {
+    renderMarker(element);
+  });
+};
 
-objectsArray.forEach((element) => {
-  createMarker(element);
-});
-
+export {renderMarkers};

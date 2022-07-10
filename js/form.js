@@ -3,7 +3,6 @@ const formAd = document.querySelector('.ad-form');
 const formFilter = document.querySelector('.map__filters');
 const formAdInteractiveElements = formAd.querySelectorAll('fieldset');
 const formFilterInteractiveElements = formFilter.querySelectorAll(['select', 'fieldset']);
-// const formTitleInput = formAd.querySelector('#title');
 const formPriceInput = formAd.querySelector('#price');
 const formRoomNumberInput = formAd.querySelector('#room_number');
 const formRoomCapacityInput = formAd.querySelector('#capacity');
