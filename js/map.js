@@ -2,11 +2,16 @@ import {setEnabledCondition, formAddress} from './form.js';
 import {createProposition} from './generate-layout.js';
 import {objectsArray} from './data-generation.js';
 
+const INITIAL_COORDINATES = {
+  lat: 35.84453,
+  lng: 140.17456,
+};
+
 const map = L.map('map-canvas')
   .on('load', setEnabledCondition)
   .setView({
-    lat: 35.84453,
-    lng: 140.17456,
+    lat: INITIAL_COORDINATES.lat,
+    lng: INITIAL_COORDINATES.lng,
   }, 10);
 
 L.tileLayer(
@@ -24,8 +29,8 @@ const mainPinIcon = L.icon({
 
 const mainPinMarker = L.marker(
   {
-    lat: 35.84453,
-    lng: 140.17456,
+    lat: INITIAL_COORDINATES.lat,
+    lng: INITIAL_COORDINATES.lng,
   },
   {
     draggable: true,
