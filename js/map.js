@@ -81,7 +81,7 @@ const initMap = (cb) => {
     // setEnabledCondition();
     addMainPinMarker();
     checkMainPin();
-    cb;
+    cb();
   })
     .setView({
       lat: INITIAL_COORDINATES.lat,

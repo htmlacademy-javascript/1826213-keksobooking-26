@@ -8,6 +8,6 @@ import {allowSubmitForm, toggleFormFromEnabled} from './form.js';
 
 toggleFormFromEnabled(true);
 allowSubmitForm();
-initMap(toggleFormFromEnabled(false));
+initMap(toggleFormFromEnabled);
 
 getData(renderMarkers);
