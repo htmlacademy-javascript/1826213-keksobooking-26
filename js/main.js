@@ -4,11 +4,10 @@ import './api.js';
 
 import {renderMarkers, initMap} from './map.js';
 import {getData} from './api.js';
-import {} from './form-popups.js';
-import {allowSubmitForm} from './form.js';
+import {allowSubmitForm, toggleFormFromEnabled} from './form.js';
 
-
+toggleFormFromEnabled(true);
 allowSubmitForm();
-initMap();
+initMap(toggleFormFromEnabled(false));
 
 getData(renderMarkers);
