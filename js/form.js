@@ -1,3 +1,6 @@
+import {sendData} from './api.js';
+// import {resetMap} from './map.js';
+
 const MAX_HOUSING_PRICE = 100000;
 const formAd = document.querySelector('.ad-form');
 const formFilter = document.querySelector('.map__filters');
@@ -12,6 +15,8 @@ const formCheckOut = formAd.querySelector('#timeout');
 const formTimeParent = formAd.querySelector('.ad-form__element--time');
 const formAddress = formAd.querySelector('#address');
 const sliderElement = formAd.querySelector('.ad-form__slider');
+const submitButton = formAd.querySelector('.ad-form__submit');
+// const resetFormButton = formAd.querySelector('.ad-form__reset');
 
 const ROOMS_CAPACITY = {
   '1': ['1'],
@@ -26,6 +31,16 @@ const LIVING_PRICES = {
   'hotel': 3000,
   'house': 5000,
   'palace': 10000,
+};
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Идет публикация...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
 };
 
 Pristine.addMessages('ru', {
@@ -124,12 +139,6 @@ formTimeParent.addEventListener('change', (evt) => {
 });
 
 
-formAd.addEventListener('submit', (evt) => {
-  if(!pristine.validate()) {
-    evt.preventDefault();
-  }
-});
-
 //Slider for price
 noUiSlider.create(sliderElement, {
   range: {
@@ -154,4 +163,19 @@ sliderElement.noUiSlider.on('update', () => {
   pristine.validate(formPriceInput);
 });
 
-export {setDisabledCondition, setEnabledCondition, formAddress};
+const submitForm = () => {
+  formAd.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+
+    if(pristine.validate()) {
+      blockSubmitButton();
+      // console.log(formData);
+      sendData(unblockSubmitButton, formData);
+    }
+  });
+};
+
+submitForm();
+
+export {setDisabledCondition, setEnabledCondition, formAddress, submitForm};

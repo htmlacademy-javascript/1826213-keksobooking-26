@@ -75,4 +75,20 @@ const renderMarkers = (array) => {
   });
 };
 
-export {renderMarkers};
+const resetMap = () => {
+  formAddress.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
+  mainPinMarker.setLatLng({
+    lat: INITIAL_COORDINATES.lat,
+    lng: INITIAL_COORDINATES.lng,
+  });
+  map.setView({
+    lat: INITIAL_COORDINATES.lat,
+    lng: INITIAL_COORDINATES.lng,
+  }, 10);
+};
+
+const initMap = () => {
+  
+};
+
+export {renderMarkers, resetMap};
