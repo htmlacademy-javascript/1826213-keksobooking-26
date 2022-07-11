@@ -1,6 +1,3 @@
-// import {formAd, pristine} from './form';
-// import {resetMap} from './map.js';
-
 const ALERT_SHOW_TIME = 5000;
 
 const getRandomNumber = (min, max) => {
@@ -35,14 +32,6 @@ const showAlert = (message) => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
 };
-
-// const resetForm = () => {
-//   formAd.reset();
-//   pristine.reset();
-//   resetMap();
-// };
-
-// resetForm();
 
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 

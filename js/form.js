@@ -1,5 +1,5 @@
 import {sendData} from './api.js';
-// import {resetMap} from './map.js';
+import {resetMap} from './map.js';
 
 const MAX_HOUSING_PRICE = 100000;
 const formAd = document.querySelector('.ad-form');
@@ -16,7 +16,7 @@ const formTimeParent = formAd.querySelector('.ad-form__element--time');
 const formAddress = formAd.querySelector('#address');
 const sliderElement = formAd.querySelector('.ad-form__slider');
 const submitButton = formAd.querySelector('.ad-form__submit');
-// const resetFormButton = formAd.querySelector('.ad-form__reset');
+const resetFormButton = formAd.querySelector('.ad-form__reset');
 
 const ROOMS_CAPACITY = {
   '1': ['1'],
@@ -163,19 +163,33 @@ sliderElement.noUiSlider.on('update', () => {
   pristine.validate(formPriceInput);
 });
 
-const submitForm = () => {
+const allowSubmitForm = () => {
   formAd.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
 
     if(pristine.validate()) {
       blockSubmitButton();
-      // console.log(formData);
-      sendData(unblockSubmitButton, formData);
+      sendData(formData);
     }
   });
 };
 
-submitForm();
+const resetForm = () => {
+  formAd.reset();
+  pristine.reset();
+  resetMap();
+};
 
-export {setDisabledCondition, setEnabledCondition, formAddress, submitForm};
+resetFormButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
+  resetMap();
+  pristine.reset();
+  sliderElement.noUiSlider.updateOptions({
+    start: getMinPrice(),
+    padding: [getMinPrice(), 0],
+  });
+});
+
+export {setDisabledCondition, setEnabledCondition, formAddress, allowSubmitForm, resetForm, unblockSubmitButton};

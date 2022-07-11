@@ -15,21 +15,28 @@ const showSuccessMessagePopup = () => {
 const showErrorMessagePopup = () => {
   const message = errorMessageTemplate.cloneNode(true);
   document.body.appendChild(message);
-
   const errorMessageCloseButton = document.querySelector('.error__button');
+
   errorMessageCloseButton.addEventListener('click', () => {
     message.remove();
   });
 
-  document.addEventListener('keydown', (evt) => {
+  const eventOnEsc = (evt) => {
     if (evt.keyCode === 27) {
       message.remove();
+      document.removeEventListener('keydown', eventOnEsc);
     }
-  });
+  };
 
-  document.addEventListener('click', () => {
+  document.addEventListener('keydown', eventOnEsc);
+
+
+  const eventOnClick = () => {
+    document.removeEventListener('click', eventOnClick);
     message.remove();
-  });
+  };
+
+  document.addEventListener('click', eventOnClick);
 };
 
 // showErrorMessagePopup();

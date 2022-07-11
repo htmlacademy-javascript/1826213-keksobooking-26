@@ -1,5 +1,6 @@
 import {showAlert} from './utils.js';
 import { showSuccessMessagePopup, showErrorMessagePopup } from './form-popups.js';
+import { resetForm, unblockSubmitButton } from './form.js';
 
 const getData = (onSuccess) => {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
@@ -12,16 +13,8 @@ const getData = (onSuccess) => {
     });
 };
 
-// const sendData = (body) => {
-//   fetch(
-//     ' https://26.javascript.pages.academy/keksobooking',
-//     {
-//       method: 'POST',
-//       body,
-//     },);
-// };
 
-const sendData = (onSuccess, body) => {
+const sendData = (body) => {
   fetch(
     'https://26.javascript.pages.academy/keksobooking',
     {
@@ -31,10 +24,12 @@ const sendData = (onSuccess, body) => {
   )
     .then((response) => {
       if (response.ok) {
-        onSuccess();
         showSuccessMessagePopup();
+        resetForm();
+        unblockSubmitButton();
       } else {
         showErrorMessagePopup();
+        unblockSubmitButton();
       }
     })
     .catch(() => {

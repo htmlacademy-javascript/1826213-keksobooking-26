@@ -1,7 +1,5 @@
 import {setEnabledCondition, formAddress} from './form.js';
 import {createProposition} from './generate-layout.js';
-// import {objectsArray} from './data-generation.js';
-// import {getData} from './api.js';
 
 const OBJECTS_AMOUNT = 10;
 const INITIAL_COORDINATES = {
@@ -9,19 +7,7 @@ const INITIAL_COORDINATES = {
   lng: 139.74472,
 };
 
-const map = L.map('map-canvas')
-  .on('load', setEnabledCondition)
-  .setView({
-    lat: INITIAL_COORDINATES.lat,
-    lng: INITIAL_COORDINATES.lng,
-  }, 10);
-
-L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+const map = L.map('map-canvas');
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -40,7 +26,7 @@ const mainPinMarker = L.marker(
   },
 );
 
-mainPinMarker.addTo(map);
+const addMainPinMarker = () => mainPinMarker.addTo(map);
 
 const markerGroup = L.layerGroup().addTo(map);
 
@@ -50,11 +36,14 @@ const pinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-mainPinMarker.on('moveend', (evt) => {
-  const lat = evt.target.getLatLng().lat;
-  const lng = evt.target.getLatLng().lng;
-  formAddress.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-});
+const checkMainPin = () => {
+  mainPinMarker.on('moveend', (evt) => {
+    const lat = evt.target.getLatLng().lat;
+    const lng = evt.target.getLatLng().lng;
+    formAddress.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  });
+};
+
 
 const renderMarker = (element) => {
   const pinMarker = L.marker(
@@ -88,7 +77,22 @@ const resetMap = () => {
 };
 
 const initMap = () => {
-  
+  map.on('load', () => {
+    setEnabledCondition();
+    addMainPinMarker();
+    checkMainPin();
+  })
+    .setView({
+      lat: INITIAL_COORDINATES.lat,
+      lng: INITIAL_COORDINATES.lng,
+    }, 10);
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    },
+  ).addTo(map);
 };
 
-export {renderMarkers, resetMap};
+export {renderMarkers, resetMap, initMap};
