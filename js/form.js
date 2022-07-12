@@ -13,7 +13,6 @@ const formHousingTypes = formAd.querySelector('#type');
 const formCheckIn = formAd.querySelector('#timein');
 const formCheckOut = formAd.querySelector('#timeout');
 const formTimeParent = formAd.querySelector('.ad-form__element--time');
-const formAddress = formAd.querySelector('#address');
 const sliderElement = formAd.querySelector('.ad-form__slider');
 const submitButton = formAd.querySelector('.ad-form__submit');
 const resetFormButton = formAd.querySelector('.ad-form__reset');
@@ -178,4 +177,4 @@ resetFormButton.addEventListener('click', (evt) => {
   });
 });
 
-export {toggleFormFromEnabled, formAddress, allowSubmitForm, resetForm, unblockSubmitButton};
+export {toggleFormFromEnabled, allowSubmitForm, resetForm, unblockSubmitButton};

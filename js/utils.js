@@ -23,6 +23,7 @@ const showAlert = (message) => {
   alertContainer.style.right = '0';
   alertContainer.style.padding = '10px 3px';
   alertContainer.style.fontSize = '30px';
+  alertContainer.style.opacity = '0.9';
   alertContainer.style.textAlign = 'center';
   alertContainer.style.backgroundColor = 'orange';
   alertContainer.textContent = message;

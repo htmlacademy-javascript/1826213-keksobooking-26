@@ -1,10 +1,12 @@
-import {formAddress} from './form.js';
 import {createProposition} from './generate-layout.js';
 
+const formAddress = document.querySelector('#address');
+
 const OBJECTS_AMOUNT = 10;
+const INITIAL_ZOOM = 12;
 const INITIAL_COORDINATES = {
-  lat: 35.62828,
-  lng: 139.74472,
+  lat: 35.67013,
+  lng: 139.74918,
 };
 
 const map = L.map('map-canvas');
@@ -73,7 +75,7 @@ const resetMap = () => {
   map.setView({
     lat: INITIAL_COORDINATES.lat,
     lng: INITIAL_COORDINATES.lng,
-  }, 10);
+  }, INITIAL_ZOOM);
 };
 
 const initMap = (cb) => {
@@ -86,7 +88,7 @@ const initMap = (cb) => {
     .setView({
       lat: INITIAL_COORDINATES.lat,
       lng: INITIAL_COORDINATES.lng,
-    }, 10);
+    }, INITIAL_ZOOM);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
