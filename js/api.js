@@ -26,14 +26,14 @@ const sendData = (body) => {
       if (response.ok) {
         showSuccessMessagePopup();
         resetForm();
-        unblockSubmitButton();
       } else {
         showErrorMessagePopup();
-        unblockSubmitButton();
       }
     })
     .catch(() => {
       showErrorMessagePopup();
+    }).finally(() => {
+      unblockSubmitButton();
     });
 };
 

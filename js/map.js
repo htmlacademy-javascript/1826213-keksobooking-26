@@ -77,8 +77,8 @@ const resetMap = () => {
 };
 
 const initMap = (cb) => {
+  formAddress.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
   map.on('load', () => {
-    // setEnabledCondition();
     addMainPinMarker();
     checkMainPin();
     cb();
