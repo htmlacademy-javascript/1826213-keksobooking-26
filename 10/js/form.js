@@ -55,43 +55,29 @@ Pristine.setLocale('ru');
 const getMinPrice = () => LIVING_PRICES[formHousingTypes.value];
 
 
-//  Form to disable
-const setDisabledCondition = () => {
-  formAd.classList.add('ad-form--disabled');
-  formFilter.classList.add('ad-form--disabled');
+//  Set form condition
+const toggleFormFromEnabled = (value) => {
+  formAd.classList.toggle('ad-form--disabled', value);
+  formFilter.classList.toggle('ad-form--disabled', value);
+
   formAdInteractiveElements.forEach((element) => {
-    element.setAttribute('disabled', 'disabled');
+    element.disabled = value;
   });
 
   formFilterInteractiveElements.forEach((element) => {
-    element.setAttribute('disabled', 'disabled');
+    element.disabled = value;
   });
 
-  sliderElement.noUiSlider.destroy();
+  if (value) {
+    formPriceInput.placeholder = getMinPrice();
+    formPriceInput.min = getMinPrice();
+
+    sliderElement.noUiSlider.updateOptions({
+      start: getMinPrice(),
+      padding: [getMinPrice(), 0],
+    });
+  }
 };
-
-
-// Form to enable
-const setEnabledCondition = () => {
-  formAd.classList.remove('ad-form--disabled');
-  formFilter.classList.remove('ad-form--disabled');
-  formAdInteractiveElements.forEach((element) => {
-    element.removeAttribute('disabled');
-  });
-
-  formFilterInteractiveElements.forEach((element) => {
-    element.removeAttribute('disabled');
-  });
-
-  formPriceInput.placeholder = getMinPrice();
-  formPriceInput.min = getMinPrice();
-
-  sliderElement.noUiSlider.updateOptions({
-    start: getMinPrice(),
-    padding: [getMinPrice(), 0],
-  });
-};
-
 
 const pristine = new Pristine(formAd, {
   classTo: 'ad-form__element',
@@ -192,4 +178,4 @@ resetFormButton.addEventListener('click', (evt) => {
   });
 });
 
-export {setDisabledCondition, setEnabledCondition, formAddress, allowSubmitForm, resetForm, unblockSubmitButton};
+export {toggleFormFromEnabled, formAddress, allowSubmitForm, resetForm, unblockSubmitButton};

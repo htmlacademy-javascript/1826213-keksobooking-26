@@ -39,6 +39,4 @@ const showErrorMessagePopup = () => {
   document.addEventListener('click', eventOnClick);
 };
 
-// showErrorMessagePopup();
-
 export {showSuccessMessagePopup, showErrorMessagePopup};

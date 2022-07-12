@@ -1,4 +1,4 @@
-import {setEnabledCondition, formAddress} from './form.js';
+import {formAddress} from './form.js';
 import {createProposition} from './generate-layout.js';
 
 const OBJECTS_AMOUNT = 10;
@@ -76,11 +76,12 @@ const resetMap = () => {
   }, 10);
 };
 
-const initMap = () => {
+const initMap = (cb) => {
   map.on('load', () => {
-    setEnabledCondition();
+    // setEnabledCondition();
     addMainPinMarker();
     checkMainPin();
+    cb();
   })
     .setView({
       lat: INITIAL_COORDINATES.lat,
