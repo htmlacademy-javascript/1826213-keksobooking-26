@@ -18,10 +18,7 @@ const mainPinIcon = L.icon({
 });
 
 const mainPinMarker = L.marker(
-  {
-    lat: INITIAL_COORDINATES.lat,
-    lng: INITIAL_COORDINATES.lng,
-  },
+  INITIAL_COORDINATES,
   {
     draggable: true,
     icon: mainPinIcon,
@@ -68,14 +65,8 @@ const renderMarkers = (array) => {
 
 const resetMap = () => {
   formAddress.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
-  mainPinMarker.setLatLng({
-    lat: INITIAL_COORDINATES.lat,
-    lng: INITIAL_COORDINATES.lng,
-  });
-  map.setView({
-    lat: INITIAL_COORDINATES.lat,
-    lng: INITIAL_COORDINATES.lng,
-  }, INITIAL_ZOOM);
+  mainPinMarker.setLatLng(INITIAL_COORDINATES);
+  map.setView(INITIAL_COORDINATES, INITIAL_ZOOM);
 };
 
 const initMap = (cb) => {
@@ -85,10 +76,7 @@ const initMap = (cb) => {
     checkMainPin();
     cb();
   })
-    .setView({
-      lat: INITIAL_COORDINATES.lat,
-      lng: INITIAL_COORDINATES.lng,
-    }, INITIAL_ZOOM);
+    .setView(INITIAL_COORDINATES, INITIAL_ZOOM);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
