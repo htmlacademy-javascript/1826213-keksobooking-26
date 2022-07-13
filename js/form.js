@@ -1,9 +1,11 @@
+import {sendData} from './api.js';
+import {resetMap} from './map.js';
+
 const MAX_HOUSING_PRICE = 100000;
 const formAd = document.querySelector('.ad-form');
 const formFilter = document.querySelector('.map__filters');
 const formAdInteractiveElements = formAd.querySelectorAll('fieldset');
 const formFilterInteractiveElements = formFilter.querySelectorAll(['select', 'fieldset']);
-// const formTitleInput = formAd.querySelector('#title');
 const formPriceInput = formAd.querySelector('#price');
 const formRoomNumberInput = formAd.querySelector('#room_number');
 const formRoomCapacityInput = formAd.querySelector('#capacity');
@@ -11,8 +13,9 @@ const formHousingTypes = formAd.querySelector('#type');
 const formCheckIn = formAd.querySelector('#timein');
 const formCheckOut = formAd.querySelector('#timeout');
 const formTimeParent = formAd.querySelector('.ad-form__element--time');
-const formAddress = formAd.querySelector('#address');
 const sliderElement = formAd.querySelector('.ad-form__slider');
+const submitButton = formAd.querySelector('.ad-form__submit');
+const resetFormButton = formAd.querySelector('.ad-form__reset');
 
 const ROOMS_CAPACITY = {
   '1': ['1'],
@@ -29,6 +32,16 @@ const LIVING_PRICES = {
   'palace': 10000,
 };
 
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Идет публикация...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
 Pristine.addMessages('ru', {
   required: 'Это поле должно быть заполнено',
   maxlength: `Должно быть не более \${${1}} символов`,
@@ -41,43 +54,29 @@ Pristine.setLocale('ru');
 const getMinPrice = () => LIVING_PRICES[formHousingTypes.value];
 
 
-//  Form to disable
-const setDisabledCondition = () => {
-  formAd.classList.add('ad-form--disabled');
-  formFilter.classList.add('ad-form--disabled');
+//  Set form condition
+const toggleFormFromEnabled = (value) => {
+  formAd.classList.toggle('ad-form--disabled', value);
+  formFilter.classList.toggle('ad-form--disabled', value);
+
   formAdInteractiveElements.forEach((element) => {
-    element.setAttribute('disabled', 'disabled');
+    element.disabled = value;
   });
 
   formFilterInteractiveElements.forEach((element) => {
-    element.setAttribute('disabled', 'disabled');
+    element.disabled = value;
   });
 
-  sliderElement.noUiSlider.destroy();
+  if (value) {
+    formPriceInput.placeholder = getMinPrice();
+    formPriceInput.min = getMinPrice();
+
+    sliderElement.noUiSlider.updateOptions({
+      start: getMinPrice(),
+      padding: [getMinPrice(), 0],
+    });
+  }
 };
-
-
-// Form to enable
-const setEnabledCondition = () => {
-  formAd.classList.remove('ad-form--disabled');
-  formFilter.classList.remove('ad-form--disabled');
-  formAdInteractiveElements.forEach((element) => {
-    element.removeAttribute('disabled');
-  });
-
-  formFilterInteractiveElements.forEach((element) => {
-    element.removeAttribute('disabled');
-  });
-
-  formPriceInput.placeholder = getMinPrice();
-  formPriceInput.min = getMinPrice();
-
-  sliderElement.noUiSlider.updateOptions({
-    start: getMinPrice(),
-    padding: [getMinPrice(), 0],
-  });
-};
-
 
 const pristine = new Pristine(formAd, {
   classTo: 'ad-form__element',
@@ -125,12 +124,6 @@ formTimeParent.addEventListener('change', (evt) => {
 });
 
 
-formAd.addEventListener('submit', (evt) => {
-  if(!pristine.validate()) {
-    evt.preventDefault();
-  }
-});
-
 //Slider for price
 noUiSlider.create(sliderElement, {
   range: {
@@ -155,4 +148,32 @@ sliderElement.noUiSlider.on('update', () => {
   pristine.validate(formPriceInput);
 });
 
-export {setDisabledCondition, setEnabledCondition, formAddress};
+const allowSubmitForm = () => {
+  formAd.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+
+    if(pristine.validate()) {
+      sendData(formData);
+    }
+  });
+};
+
+const resetForm = () => {
+  formAd.reset();
+  pristine.reset();
+  resetMap();
+};
+
+resetFormButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
+  resetMap();
+  pristine.reset();
+  sliderElement.noUiSlider.updateOptions({
+    start: getMinPrice(),
+    padding: [getMinPrice(), 0],
+  });
+});
+
+export {toggleFormFromEnabled, allowSubmitForm, resetForm, unblockSubmitButton, blockSubmitButton};
