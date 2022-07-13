@@ -154,7 +154,6 @@ const allowSubmitForm = () => {
     const formData = new FormData(evt.target);
 
     if(pristine.validate()) {
-      blockSubmitButton();
       sendData(formData);
     }
   });
@@ -177,4 +176,4 @@ resetFormButton.addEventListener('click', (evt) => {
   });
 });
 
-export {toggleFormFromEnabled, allowSubmitForm, resetForm, unblockSubmitButton};
+export {toggleFormFromEnabled, allowSubmitForm, resetForm, unblockSubmitButton, blockSubmitButton};

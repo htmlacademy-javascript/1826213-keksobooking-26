@@ -1,6 +1,5 @@
-import {showAlert} from './utils.js';
 import { showSuccessMessagePopup, showErrorMessagePopup } from './form-popups.js';
-import { resetForm, unblockSubmitButton } from './form.js';
+import { resetForm, unblockSubmitButton, blockSubmitButton } from './form.js';
 
 const getData = (onSuccess) => {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
@@ -9,12 +8,12 @@ const getData = (onSuccess) => {
       onSuccess(objects);
     })
     .catch(() => {
-      showAlert('Ошибка загрузки, попробуйте перезагрузить страницу');
+      showErrorMessagePopup('Не удалось загрузить объекты, попробуйте перезагрузить страницу');
     });
 };
 
-
 const sendData = (body) => {
+  blockSubmitButton();
   fetch(
     'https://26.javascript.pages.academy/keksobooking',
     {
@@ -27,11 +26,11 @@ const sendData = (body) => {
         showSuccessMessagePopup();
         resetForm();
       } else {
-        showErrorMessagePopup();
+        throw new Error();
       }
     })
     .catch(() => {
-      showErrorMessagePopup();
+      showErrorMessagePopup('Не удалось отправить объявление');
     }).finally(() => {
       unblockSubmitButton();
     });

@@ -12,10 +12,12 @@ const showSuccessMessagePopup = () => {
   }, SHOW_SUCCESS_MESSAGE_TIME);
 };
 
-const showErrorMessagePopup = () => {
+const showErrorMessagePopup = (errorMessage) => {
   const message = errorMessageTemplate.cloneNode(true);
   document.body.appendChild(message);
   const errorMessageCloseButton = document.querySelector('.error__button');
+  const errorMessageText = document.querySelector('.error__message');
+  errorMessageText.textContent = errorMessage;
 
   errorMessageCloseButton.addEventListener('click', () => {
     message.remove();
