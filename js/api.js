@@ -1,6 +1,7 @@
 import { showSuccessMessagePopup, showErrorMessagePopup } from './form-popups.js';
 import { resetForm, unblockSubmitButton, blockSubmitButton } from './form.js';
 
+
 const getData = (onSuccess) => {
   fetch('https://26.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())

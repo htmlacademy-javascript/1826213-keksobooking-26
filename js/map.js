@@ -1,8 +1,9 @@
+// import { getData } from './api.js';
 import {createProposition} from './generate-layout.js';
 
 const formAddress = document.querySelector('#address');
 
-const OBJECTS_AMOUNT = 10;
+// const OBJECTS_AMOUNT = 10;
 const INITIAL_ZOOM = 12;
 const INITIAL_COORDINATES = {
   lat: 35.67013,
@@ -10,6 +11,8 @@ const INITIAL_COORDINATES = {
 };
 
 const map = L.map('map-canvas');
+const mainMarkerGroup = L.layerGroup().addTo(map);
+const markersGroup = L.layerGroup().addTo(map);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -25,15 +28,7 @@ const mainPinMarker = L.marker(
   },
 );
 
-const addMainPinMarker = () => mainPinMarker.addTo(map);
-
-const markerGroup = L.layerGroup().addTo(map);
-
-const pinIcon = L.icon({
-  iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
+const renderMainPinMarker = () => mainPinMarker.addTo(mainMarkerGroup);
 
 const checkMainPin = () => {
   mainPinMarker.on('moveend', (evt) => {
@@ -43,6 +38,11 @@ const checkMainPin = () => {
   });
 };
 
+const pinIcon = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
 const renderMarker = (element) => {
   const pinMarker = L.marker(
@@ -54,11 +54,11 @@ const renderMarker = (element) => {
       icon: pinIcon,
     },
   );
-  pinMarker.addTo(markerGroup).bindPopup(createProposition(element));
+  pinMarker.addTo(markersGroup).bindPopup(createProposition(element));
 };
 
 const renderMarkers = (array) => {
-  array.slice(0, OBJECTS_AMOUNT - 1).forEach((element) => {
+  array.forEach((element) => {
     renderMarker(element);
   });
 };
@@ -72,7 +72,7 @@ const resetMap = () => {
 const initMap = (cb) => {
   formAddress.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
   map.on('load', () => {
-    addMainPinMarker();
+    renderMainPinMarker();
     checkMainPin();
     cb();
   })
@@ -86,4 +86,9 @@ const initMap = (cb) => {
   ).addTo(map);
 };
 
-export {renderMarkers, resetMap, initMap};
+const clearMarkers = () => {
+  markersGroup.clearLayers();
+};
+
+
+export {renderMarkers, resetMap, initMap, clearMarkers};
