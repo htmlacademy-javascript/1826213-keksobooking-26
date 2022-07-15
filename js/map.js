@@ -1,9 +1,7 @@
-// import { getData } from './api.js';
 import {createProposition} from './generate-layout.js';
 
 const formAddress = document.querySelector('#address');
 
-// const OBJECTS_AMOUNT = 10;
 const INITIAL_ZOOM = 12;
 const INITIAL_COORDINATES = {
   lat: 35.67013,
