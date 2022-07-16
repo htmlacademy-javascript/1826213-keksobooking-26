@@ -1,4 +1,5 @@
 import {sendData} from './api.js';
+import {resetMapFilters, startFilter} from './form-filter.js';
 import {resetMap} from './map.js';
 
 const MAX_HOUSING_PRICE = 100000;
@@ -163,6 +164,8 @@ const resetForm = () => {
   formAd.reset();
   pristine.reset();
   resetMap();
+  resetMapFilters();
+  startFilter();
 };
 
 resetFormButton.addEventListener('click', (evt) => {
