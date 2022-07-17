@@ -1,6 +1,7 @@
 import {sendData} from './api.js';
 import {resetMapFilters, startFilter} from './form-filter.js';
 import {resetMap} from './map.js';
+import {setImagesToDefault} from './uploading-images.js';
 
 const MAX_HOUSING_PRICE = 100000;
 const formAd = document.querySelector('.ad-form');
@@ -166,6 +167,7 @@ const resetForm = () => {
   resetMap();
   resetMapFilters();
   startFilter();
+  setImagesToDefault();
 };
 
 resetFormButton.addEventListener('click', (evt) => {
