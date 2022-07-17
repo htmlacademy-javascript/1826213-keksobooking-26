@@ -170,15 +170,18 @@ const resetForm = () => {
   setImagesToDefault();
 };
 
-resetFormButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetForm();
-  resetMap();
-  pristine.reset();
-  sliderElement.noUiSlider.updateOptions({
-    start: getMinPrice(),
-    padding: [getMinPrice(), 0],
+const resetFormButtonHandler = () => {
+  resetFormButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    resetForm();
+    resetMap();
+    pristine.reset();
+    sliderElement.noUiSlider.updateOptions({
+      start: getMinPrice(),
+      padding: [getMinPrice(), 0],
+    });
   });
-});
+};
 
-export {toggleFormFromEnabled, allowSubmitForm, resetForm, unblockSubmitButton, blockSubmitButton};
+
+export {toggleFormFromEnabled, allowSubmitForm, resetForm,unblockSubmitButton, blockSubmitButton, resetFormButtonHandler};
