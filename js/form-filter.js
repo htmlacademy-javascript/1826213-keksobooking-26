@@ -12,7 +12,8 @@ const mapFeaturesFilter = mapFilters.querySelector('#housing-features');
 const DEBOUNCE_DELAY = 500;
 const MAX_OBJECTS_VALUE = 10;
 const SELECT_DEFAULT_VALUE = 'any';
-const mapPriceFilterValues = {
+
+const PRICE_FILTER_VALUES = {
   low: {
     from: 0,
     to: 10000,
@@ -33,7 +34,7 @@ const mapPriceFilterValues = {
 
 const getFilteredAds = (array) => {
   const filterType = (ad) => mapTypeFilter.value === ad.offer.type || mapTypeFilter.value === SELECT_DEFAULT_VALUE;
-  const filterPrice = (ad) => (ad.offer.price >= mapPriceFilterValues[mapPriceFilter.value].from && ad.offer.price <= mapPriceFilterValues[mapPriceFilter.value].to);
+  const filterPrice = (ad) => (ad.offer.price >= PRICE_FILTER_VALUES[mapPriceFilter.value].from && ad.offer.price <= PRICE_FILTER_VALUES[mapPriceFilter.value].to);
   const filterRooms = (ad) => ad.offer.rooms.toString() === mapRoomsFilter.value || mapRoomsFilter.value === SELECT_DEFAULT_VALUE;
   const filterGuests = (ad) => ad.offer.guests.toString() === mapGuestsFilter.value || mapGuestsFilter.value === SELECT_DEFAULT_VALUE;
 
@@ -84,8 +85,5 @@ const resetMapFilters = () => {
     renderMarkers(getFilteredAds(ads));
   });
 };
-
-startFilter();
-mapFilterUpdateHandler();
 
 export {resetMapFilters, startFilter, mapFilterUpdateHandler};

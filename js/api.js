@@ -1,10 +1,13 @@
 import { showSuccessMessagePopup, showErrorMessagePopup } from './form-popups.js';
 import { resetForm, unblockSubmitButton, blockSubmitButton } from './form.js';
 
+const GET_ADDRESS = 'https://26.javascript.pages.academy/keksobooking/data';
+const SEND_ADDRESS = 'https://26.javascript.pages.academy/keksobooking';
+
 const getData = async (onSuccess) => {
   let response;
   try {
-    response = await fetch('https://26.javascript.pages.academy/keksobooking/data');
+    response = await fetch(GET_ADDRESS);
     if (!response.ok) {
       throw new Error('Не удалось загрузить объекты :(');
     }
@@ -21,7 +24,7 @@ const sendData = async (body) => {
   blockSubmitButton();
   try {
     response = await fetch(
-      'https://26.javascript.pages.academy/keksobooking',
+      SEND_ADDRESS,
       {
         method: 'POST',
         body,
@@ -40,41 +43,5 @@ const sendData = async (body) => {
     unblockSubmitButton();
   }
 };
-
-// const getData = (onSuccess) => {
-//   fetch('https://26.javascript.pages.academy/keksobooking/data')
-//     .then((response) => response.json())
-//     .then((objects) => {
-//       onSuccess(objects);
-//     })
-//     .catch(() => {
-//       showErrorMessagePopup('Не удалось загрузить объекты, попробуйте перезагрузить страницу');
-//     });
-// };
-
-
-// const sendData = (body) => {
-//   blockSubmitButton();
-//   fetch(
-//     'https://26.javascript.pages.academy/keksobooking',
-//     {
-//       method: 'POST',
-//       body,
-//     },
-//   )
-//     .then((response) => {
-//       if (response.ok) {
-//         showSuccessMessagePopup();
-//         resetForm();
-//       } else {
-//         throw new Error();
-//       }
-//     })
-//     .catch(() => {
-//       showErrorMessagePopup('Не удалось отправить объявление');
-//     }).finally(() => {
-//       unblockSubmitButton();
-//     });
-// };
 
 export {getData, sendData};

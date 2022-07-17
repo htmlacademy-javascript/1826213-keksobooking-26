@@ -1,12 +1,12 @@
 import {createProposition} from './generate-layout.js';
 
-const formAddress = document.querySelector('#address');
-
 const INITIAL_ZOOM = 12;
 const INITIAL_COORDINATES = {
   lat: 35.67013,
   lng: 139.74918,
 };
+
+const formAddress = document.querySelector('#address');
 
 const map = L.map('map-canvas');
 const mainMarkerGroup = L.layerGroup().addTo(map);
