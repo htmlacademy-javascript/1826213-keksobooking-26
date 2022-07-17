@@ -1,6 +1,6 @@
-import { getData } from './api.js';
-import { clearMarkers, renderMarkers} from './map.js';
-import { debounce } from './utils.js';
+import {getData} from './api.js';
+import {clearMarkers, renderMarkers} from './map.js';
+import {debounce} from './utils.js';
 
 const mapFilters = document.querySelector('.map__filters');
 const mapTypeFilter = mapFilters.querySelector('#housing-type');

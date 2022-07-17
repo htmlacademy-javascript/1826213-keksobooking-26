@@ -6,14 +6,14 @@ import './utils.js';
 import './uploading-images.js';
 
 import {initMap} from './map.js';
-import {allowSubmitForm, resetFormButtonHandler, toggleFormFromEnabled} from './form.js';
+import {resetFormButtonHandler, submitFormHandler, toggleFormFromEnabled} from './form.js';
 import {mapFilterUpdateHandler, startFilter} from './form-filter.js';
 
 toggleFormFromEnabled(true);
 
 initMap(() => {
-  allowSubmitForm();
   toggleFormFromEnabled(false);
+  submitFormHandler();
   resetFormButtonHandler();
   startFilter();
   mapFilterUpdateHandler();

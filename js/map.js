@@ -88,5 +88,4 @@ const clearMarkers = () => {
   markersGroup.clearLayers();
 };
 
-
 export {renderMarkers, resetMap, initMap, clearMarkers};
