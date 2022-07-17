@@ -1,5 +1,9 @@
 import {createProposition} from './generate-layout.js';
 
+const MAP_SETTINGS = {
+  TYLE: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  COPYRIGHT: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+};
 const INITIAL_ZOOM = 12;
 const INITIAL_COORDINATES = {
   lat: 35.67013,
@@ -77,9 +81,9 @@ const initMap = (cb) => {
     .setView(INITIAL_COORDINATES, INITIAL_ZOOM);
 
   L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    MAP_SETTINGS.TYLE,
     {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: MAP_SETTINGS.COPYRIGHT,
     },
   ).addTo(map);
 };
