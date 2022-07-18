@@ -1,5 +1,7 @@
 import {sendData} from './api.js';
+import {resetMapFilters, startFilter} from './form-filter.js';
 import {resetMap} from './map.js';
+import {setImagesToDefault} from './uploading-images.js';
 
 const MAX_HOUSING_PRICE = 100000;
 const formAd = document.querySelector('.ad-form');
@@ -24,22 +26,12 @@ const ROOMS_CAPACITY = {
   '100': ['0'],
 };
 
-const LIVING_PRICES = {
+const HOUSING_PRICES_BY_TYPE = {
   'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
   'house': 5000,
   'palace': 10000,
-};
-
-const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Идет публикация...';
-};
-
-const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
 };
 
 Pristine.addMessages('ru', {
@@ -51,7 +43,7 @@ Pristine.addMessages('ru', {
 Pristine.setLocale('ru');
 
 // Function to get minimal price
-const getMinPrice = () => LIVING_PRICES[formHousingTypes.value];
+const getMinPrice = () => HOUSING_PRICES_BY_TYPE[formHousingTypes.value];
 
 
 //  Set form condition
@@ -106,7 +98,7 @@ formAd.addEventListener('change', () => {
 
 // Price validation
 const validatePrice = (value) => value >= getMinPrice() && value <= MAX_HOUSING_PRICE;
-const getPriceErrorMessage = () => `Не менее ${getMinPrice()} и не более 100000`;
+const getPriceErrorMessage = () => `Не менее ${getMinPrice()} и не более ${MAX_HOUSING_PRICE}`;
 pristine.addValidator(formPriceInput, validatePrice, getPriceErrorMessage);
 
 
@@ -148,7 +140,7 @@ sliderElement.noUiSlider.on('update', () => {
   pristine.validate(formPriceInput);
 });
 
-const allowSubmitForm = () => {
+const submitFormHandler = () => {
   formAd.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
@@ -163,17 +155,32 @@ const resetForm = () => {
   formAd.reset();
   pristine.reset();
   resetMap();
+  resetMapFilters();
+  startFilter();
+  setImagesToDefault();
 };
 
-resetFormButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetForm();
-  resetMap();
-  pristine.reset();
-  sliderElement.noUiSlider.updateOptions({
-    start: getMinPrice(),
-    padding: [getMinPrice(), 0],
+const resetFormButtonHandler = () => {
+  resetFormButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    resetForm();
+    resetMap();
+    pristine.reset();
+    sliderElement.noUiSlider.updateOptions({
+      start: getMinPrice(),
+      padding: [getMinPrice(), 0],
+    });
   });
-});
+};
 
-export {toggleFormFromEnabled, allowSubmitForm, resetForm, unblockSubmitButton, blockSubmitButton};
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Идет публикация...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+export {toggleFormFromEnabled, submitFormHandler, resetForm,unblockSubmitButton, blockSubmitButton, resetFormButtonHandler};

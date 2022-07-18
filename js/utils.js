@@ -14,4 +14,12 @@ const getRandomNumberWithPoint = (min, max, fraction) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
-export {getRandomNumber, getRandomNumberWithPoint, getRandomArrayElement};
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {getRandomNumber, getRandomNumberWithPoint, getRandomArrayElement, debounce};

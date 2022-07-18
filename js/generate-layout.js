@@ -1,7 +1,8 @@
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+
 const checkAvailability = (templateElement, value) => (value) ? value : templateElement.remove();
 
-const housingTypesToUnderstand = {
+const CONVERT_HOUSING_TYPES = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
   house: 'Дом',
@@ -38,7 +39,7 @@ const createProposition = (obj) => {
   offerTitle.textContent = checkAvailability(offerTitle, title);
   offerAddress.textContent = checkAvailability(offerAddress, address);
   offerPrice.textContent = checkAvailability(offerPrice, `${price} р/ночь`);
-  offerType.textContent = checkAvailability(offerType, housingTypesToUnderstand[type]);
+  offerType.textContent = checkAvailability(offerType, CONVERT_HOUSING_TYPES[type]);
   offerCapacity.textContent = `${rooms} ${roomName(rooms)} для ${guests} ${(guests > 1) ? 'гостей' : 'гостя'}`;
   offerTime.textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
 

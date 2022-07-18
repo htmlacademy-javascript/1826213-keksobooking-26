@@ -1,15 +1,20 @@
 import {createProposition} from './generate-layout.js';
 
-const formAddress = document.querySelector('#address');
-
-const OBJECTS_AMOUNT = 10;
+const MAP_SETTINGS = {
+  TYLE: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  COPYRIGHT: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+};
 const INITIAL_ZOOM = 12;
 const INITIAL_COORDINATES = {
   lat: 35.67013,
   lng: 139.74918,
 };
 
+const formAddress = document.querySelector('#address');
+
 const map = L.map('map-canvas');
+const mainMarkerGroup = L.layerGroup().addTo(map);
+const markersGroup = L.layerGroup().addTo(map);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -18,25 +23,14 @@ const mainPinIcon = L.icon({
 });
 
 const mainPinMarker = L.marker(
-  {
-    lat: INITIAL_COORDINATES.lat,
-    lng: INITIAL_COORDINATES.lng,
-  },
+  INITIAL_COORDINATES,
   {
     draggable: true,
     icon: mainPinIcon,
   },
 );
 
-const addMainPinMarker = () => mainPinMarker.addTo(map);
-
-const markerGroup = L.layerGroup().addTo(map);
-
-const pinIcon = L.icon({
-  iconUrl: './img/pin.svg',
-  iconSize: [40, 40],
-  iconAnchor: [20, 40],
-});
+const renderMainPinMarker = () => mainPinMarker.addTo(mainMarkerGroup);
 
 const checkMainPin = () => {
   mainPinMarker.on('moveend', (evt) => {
@@ -46,6 +40,11 @@ const checkMainPin = () => {
   });
 };
 
+const pinIcon = L.icon({
+  iconUrl: './img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
 const renderMarker = (element) => {
   const pinMarker = L.marker(
@@ -57,45 +56,40 @@ const renderMarker = (element) => {
       icon: pinIcon,
     },
   );
-  pinMarker.addTo(markerGroup).bindPopup(createProposition(element));
+  pinMarker.addTo(markersGroup).bindPopup(createProposition(element));
 };
 
 const renderMarkers = (array) => {
-  array.slice(0, OBJECTS_AMOUNT - 1).forEach((element) => {
+  array.forEach((element) => {
     renderMarker(element);
   });
 };
 
 const resetMap = () => {
   formAddress.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
-  mainPinMarker.setLatLng({
-    lat: INITIAL_COORDINATES.lat,
-    lng: INITIAL_COORDINATES.lng,
-  });
-  map.setView({
-    lat: INITIAL_COORDINATES.lat,
-    lng: INITIAL_COORDINATES.lng,
-  }, INITIAL_ZOOM);
+  mainPinMarker.setLatLng(INITIAL_COORDINATES);
+  map.setView(INITIAL_COORDINATES, INITIAL_ZOOM);
 };
 
 const initMap = (cb) => {
   formAddress.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
   map.on('load', () => {
-    addMainPinMarker();
+    renderMainPinMarker();
     checkMainPin();
     cb();
   })
-    .setView({
-      lat: INITIAL_COORDINATES.lat,
-      lng: INITIAL_COORDINATES.lng,
-    }, INITIAL_ZOOM);
+    .setView(INITIAL_COORDINATES, INITIAL_ZOOM);
 
   L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    MAP_SETTINGS.TYLE,
     {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: MAP_SETTINGS.COPYRIGHT,
     },
   ).addTo(map);
 };
 
-export {renderMarkers, resetMap, initMap};
+const clearMarkers = () => {
+  markersGroup.clearLayers();
+};
+
+export {renderMarkers, resetMap, initMap, clearMarkers};
