@@ -72,8 +72,8 @@ const getFilteredAds = (array) => {
 const mapFilterUpdateHandler = () => {
   mapFilters.addEventListener('change', debounce(async () => {
     const data = await getData();
-    renderMarkers(getFilteredAds(data));
     clearMarkers();
+    renderMarkers(getFilteredAds(data));
   }, DEBOUNCE_DELAY)
   );
 };
@@ -84,10 +84,10 @@ const startFilter = async () => {
 };
 
 const resetMapFilters = async () => {
-  mapFilters.reset();
   const data = await getData();
-  renderMarkers(getFilteredAds(data));
+  mapFilters.reset();
   clearMarkers();
+  renderMarkers(getFilteredAds(data));
 };
 
 export {resetMapFilters, startFilter, mapFilterUpdateHandler};
