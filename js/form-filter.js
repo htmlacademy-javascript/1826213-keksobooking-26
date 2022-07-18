@@ -70,27 +70,24 @@ const getFilteredAds = (array) => {
 };
 
 const mapFilterUpdateHandler = () => {
-  mapFilters.addEventListener('change', debounce(() => {
-    getData((ads) => {
-      clearMarkers();
-      renderMarkers(getFilteredAds(ads));
-    });
+  mapFilters.addEventListener('change', debounce(async () => {
+    const data = await getData();
+    renderMarkers(getFilteredAds(data));
+    clearMarkers();
   }, DEBOUNCE_DELAY)
   );
 };
 
-const startFilter = () => {
-  getData((ads) => {
-    renderMarkers(getFilteredAds(ads));
-  });
+const startFilter = async () => {
+  const data = await getData();
+  renderMarkers(getFilteredAds(data));
 };
 
-const resetMapFilters = () => {
+const resetMapFilters = async () => {
   mapFilters.reset();
-  getData((ads) => {
-    clearMarkers();
-    renderMarkers(getFilteredAds(ads));
-  });
+  const data = await getData();
+  renderMarkers(getFilteredAds(data));
+  clearMarkers();
 };
 
 export {resetMapFilters, startFilter, mapFilterUpdateHandler};

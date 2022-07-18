@@ -4,7 +4,7 @@ import { resetForm, unblockSubmitButton, blockSubmitButton } from './form.js';
 const GET_ADDRESS = 'https://26.javascript.pages.academy/keksobooking/data';
 const SEND_ADDRESS = 'https://26.javascript.pages.academy/keksobooking';
 
-const getData = async (onSuccess) => {
+const getData = async () => {
   let response;
   try {
     response = await fetch(GET_ADDRESS);
@@ -16,7 +16,7 @@ const getData = async (onSuccess) => {
   }
 
   const ads = await response.json();
-  onSuccess(ads);
+  return ads;
 };
 
 const sendData = async (body) => {
