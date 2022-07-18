@@ -4,6 +4,7 @@ const MAP_SETTINGS = {
   TYLE: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   COPYRIGHT: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 };
+
 const INITIAL_ZOOM = 12;
 const INITIAL_COORDINATES = {
   lat: 35.67013,

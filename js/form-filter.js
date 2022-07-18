@@ -50,8 +50,15 @@ const getFilteredAds = (array) => {
 
   const filteredAds = [];
 
+  const checkFilters = (elem) =>
+    filterType(elem) &&
+    filterPrice(elem) &&
+    filterRooms(elem) &&
+    filterGuests(elem) &&
+    filterFeatures(elem);
+
   for (let i = 0; i < array.length; i++) {
-    if(filterType(array[i]) && filterPrice(array[i]) && filterRooms(array[i]) && filterGuests(array[i]) && filterFeatures(array[i])) {
+    if(checkFilters(array[i])) {
       filteredAds.push(array[i]);
     }
 
