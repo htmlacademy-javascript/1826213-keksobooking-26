@@ -1,23 +1,23 @@
 import {sendData} from './api.js';
-import {resetMapFilters, startFilter} from './form-filter.js';
+import {resetMapFilters, startMapFilter} from './form-filter.js';
 import {resetMap} from './map.js';
 import {setImagesToDefault} from './uploading-images.js';
 
 const MAX_HOUSING_PRICE = 100000;
 const formAd = document.querySelector('.ad-form');
-const formFilter = document.querySelector('.map__filters');
+const formFilterElement = document.querySelector('.map__filters');
 const formAdInteractiveElements = formAd.querySelectorAll('fieldset');
-const formFilterInteractiveElements = formFilter.querySelectorAll(['select', 'fieldset']);
-const formPriceInput = formAd.querySelector('#price');
-const formRoomNumberInput = formAd.querySelector('#room_number');
-const formRoomCapacityInput = formAd.querySelector('#capacity');
-const formHousingTypes = formAd.querySelector('#type');
-const formCheckIn = formAd.querySelector('#timein');
-const formCheckOut = formAd.querySelector('#timeout');
-const formTimeParent = formAd.querySelector('.ad-form__element--time');
+const formFilterInteractiveElements = formFilterElement.querySelectorAll(['select', 'fieldset']);
+const formPriceInputElement = formAd.querySelector('#price');
+const formRoomNumberInputElement = formAd.querySelector('#room_number');
+const formRoomCapacityInputElement = formAd.querySelector('#capacity');
+const formHousingTypesElement = formAd.querySelector('#type');
+const formCheckInElement = formAd.querySelector('#timein');
+const formCheckOutElement = formAd.querySelector('#timeout');
+const formTimeParentElement = formAd.querySelector('.ad-form__element--time');
 const sliderElement = formAd.querySelector('.ad-form__slider');
-const submitButton = formAd.querySelector('.ad-form__submit');
-const resetFormButton = formAd.querySelector('.ad-form__reset');
+const submitButtonElement = formAd.querySelector('.ad-form__submit');
+const resetFormButtonElement = formAd.querySelector('.ad-form__reset');
 
 const ROOMS_CAPACITY = {
   '1': ['1'],
@@ -43,13 +43,13 @@ Pristine.addMessages('ru', {
 Pristine.setLocale('ru');
 
 // Function to get minimal price
-const getMinPrice = () => HOUSING_PRICES_BY_TYPE[formHousingTypes.value];
+const getMinPrice = () => HOUSING_PRICES_BY_TYPE[formHousingTypesElement.value];
 
 
 //  Set form condition
 const toggleFormFromEnabled = (value) => {
   formAd.classList.toggle('ad-form--disabled', value);
-  formFilter.classList.toggle('ad-form--disabled', value);
+  formFilterElement.classList.toggle('ad-form--disabled', value);
 
   formAdInteractiveElements.forEach((element) => {
     element.disabled = value;
@@ -60,8 +60,8 @@ const toggleFormFromEnabled = (value) => {
   });
 
   if (value) {
-    formPriceInput.placeholder = getMinPrice();
-    formPriceInput.min = getMinPrice();
+    formPriceInputElement.placeholder = getMinPrice();
+    formPriceInputElement.min = getMinPrice();
 
     sliderElement.noUiSlider.updateOptions({
       start: getMinPrice(),
@@ -78,9 +78,9 @@ const pristine = new Pristine(formAd, {
 
 
 // Set minimal price in placeholder, min attribute and slider
-formHousingTypes.addEventListener('change', () => {
-  formPriceInput.placeholder = getMinPrice();
-  formPriceInput.min = getMinPrice();
+formHousingTypesElement.addEventListener('change', () => {
+  formPriceInputElement.placeholder = getMinPrice();
+  formPriceInputElement.min = getMinPrice();
   sliderElement.noUiSlider.updateOptions({
     start: getMinPrice(),
     padding: [getMinPrice(), 0],
@@ -89,30 +89,30 @@ formHousingTypes.addEventListener('change', () => {
 
 
 // Rooms validation
-const validateCapacity = (value) => ROOMS_CAPACITY[formRoomNumberInput.value].includes(value);
-pristine.addValidator(formRoomCapacityInput, validateCapacity, 'Выберите верное количество комнат и гостей');
+const validateCapacity = (value) => ROOMS_CAPACITY[formRoomNumberInputElement.value].includes(value);
+pristine.addValidator(formRoomCapacityInputElement, validateCapacity, 'Выберите верное количество комнат и гостей');
 formAd.addEventListener('change', () => {
-  pristine.validate(formRoomCapacityInput);
+  pristine.validate(formRoomCapacityInputElement);
 });
 
 
 // Price validation
 const validatePrice = (value) => value >= getMinPrice() && value <= MAX_HOUSING_PRICE;
 const getPriceErrorMessage = () => `Не менее ${getMinPrice()} и не более ${MAX_HOUSING_PRICE}`;
-pristine.addValidator(formPriceInput, validatePrice, getPriceErrorMessage);
+pristine.addValidator(formPriceInputElement, validatePrice, getPriceErrorMessage);
 
 
 //input
-formPriceInput.addEventListener('change', () => {
+formPriceInputElement.addEventListener('change', () => {
   // pristine.validate(formPriceInput);
-  sliderElement.noUiSlider.set(formPriceInput.value);
+  sliderElement.noUiSlider.set(formPriceInputElement.value);
 });
 
 
 // Checkin and checkout synchronization
-formTimeParent.addEventListener('change', (evt) => {
-  formCheckOut.value = evt.target.value;
-  formCheckIn.value = evt.target.value;
+formTimeParentElement.addEventListener('change', (evt) => {
+  formCheckOutElement.value = evt.target.value;
+  formCheckInElement.value = evt.target.value;
 });
 
 
@@ -136,8 +136,8 @@ noUiSlider.create(sliderElement, {
 });
 
 sliderElement.noUiSlider.on('update', () => {
-  formPriceInput.value = sliderElement.noUiSlider.get();
-  pristine.validate(formPriceInput);
+  formPriceInputElement.value = sliderElement.noUiSlider.get();
+  pristine.validate(formPriceInputElement);
 });
 
 const submitFormHandler = () => {
@@ -156,12 +156,12 @@ const resetForm = () => {
   pristine.reset();
   resetMap();
   resetMapFilters();
-  startFilter();
+  startMapFilter();
   setImagesToDefault();
 };
 
 const resetFormButtonHandler = () => {
-  resetFormButton.addEventListener('click', (evt) => {
+  resetFormButtonElement.addEventListener('click', (evt) => {
     evt.preventDefault();
     resetForm();
     resetMap();
@@ -174,13 +174,13 @@ const resetFormButtonHandler = () => {
 };
 
 const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Идет публикация...';
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Идет публикация...';
 };
 
 const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Опубликовать';
 };
 
-export {toggleFormFromEnabled, submitFormHandler, resetForm,unblockSubmitButton, blockSubmitButton, resetFormButtonHandler};
+export {toggleFormFromEnabled, submitFormHandler, resetForm, unblockSubmitButton, blockSubmitButton, resetFormButtonHandler};
