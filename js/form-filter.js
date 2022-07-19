@@ -50,8 +50,15 @@ const getFilteredAds = (array) => {
 
   const filteredAds = [];
 
+  const checkFilters = (elem) =>
+    filterType(elem) &&
+    filterPrice(elem) &&
+    filterRooms(elem) &&
+    filterGuests(elem) &&
+    filterFeatures(elem);
+
   for (let i = 0; i < array.length; i++) {
-    if(filterType(array[i]) && filterPrice(array[i]) && filterRooms(array[i]) && filterGuests(array[i]) && filterFeatures(array[i])) {
+    if(checkFilters(array[i])) {
       filteredAds.push(array[i]);
     }
 
@@ -63,27 +70,24 @@ const getFilteredAds = (array) => {
 };
 
 const mapFilterUpdateHandler = () => {
-  mapFilters.addEventListener('change', debounce(() => {
-    getData((ads) => {
-      clearMarkers();
-      renderMarkers(getFilteredAds(ads));
-    });
+  mapFilters.addEventListener('change', debounce(async () => {
+    const data = await getData();
+    clearMarkers();
+    renderMarkers(getFilteredAds(data));
   }, DEBOUNCE_DELAY)
   );
 };
 
-const startFilter = () => {
-  getData((ads) => {
-    renderMarkers(getFilteredAds(ads));
-  });
+const startFilter = async () => {
+  const data = await getData();
+  renderMarkers(getFilteredAds(data));
 };
 
-const resetMapFilters = () => {
+const resetMapFilters = async () => {
+  const data = await getData();
   mapFilters.reset();
-  getData((ads) => {
-    clearMarkers();
-    renderMarkers(getFilteredAds(ads));
-  });
+  clearMarkers();
+  renderMarkers(getFilteredAds(data));
 };
 
 export {resetMapFilters, startFilter, mapFilterUpdateHandler};

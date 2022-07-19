@@ -32,6 +32,7 @@ housingImagesInput.addEventListener('change', () => {
     imgElement.src = URL.createObjectURL(file);
     imgElement.setAttribute('height', '70px');
     imgElement.setAttribute('width', '70px');
+    imgElement.style = 'object-fit: cover;';
     housingImagesPreview.append(imgElement);
   }
 });
