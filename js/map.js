@@ -5,13 +5,14 @@ const MAP_SETTINGS = {
   COPYRIGHT: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 };
 
-const INITIAL_ZOOM = 12;
 const INITIAL_COORDINATES = {
   lat: 35.67013,
   lng: 139.74918,
 };
 
-const formAddress = document.querySelector('#address');
+const INITIAL_ZOOM = 12;
+
+const formAddressElement = document.querySelector('#address');
 
 const map = L.map('map-canvas');
 const mainMarkerGroup = L.layerGroup().addTo(map);
@@ -37,7 +38,7 @@ const checkMainPin = () => {
   mainPinMarker.on('moveend', (evt) => {
     const lat = evt.target.getLatLng().lat;
     const lng = evt.target.getLatLng().lng;
-    formAddress.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+    formAddressElement.value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
   });
 };
 
@@ -60,20 +61,20 @@ const renderMarker = (element) => {
   pinMarker.addTo(markersGroup).bindPopup(createProposition(element));
 };
 
-const renderMarkers = (array) => {
-  array.forEach((element) => {
-    renderMarker(element);
+const renderMarkers = (ads) => {
+  ads.forEach((ad) => {
+    renderMarker(ad);
   });
 };
 
 const resetMap = () => {
-  formAddress.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
+  formAddressElement.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
   mainPinMarker.setLatLng(INITIAL_COORDINATES);
   map.setView(INITIAL_COORDINATES, INITIAL_ZOOM);
 };
 
 const initMap = (cb) => {
-  formAddress.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
+  formAddressElement.value = `${INITIAL_COORDINATES.lat}, ${INITIAL_COORDINATES.lng}`;
   map.on('load', () => {
     renderMainPinMarker();
     checkMainPin();
