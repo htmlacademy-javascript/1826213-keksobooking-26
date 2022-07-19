@@ -61,9 +61,9 @@ const renderMarker = (element) => {
   pinMarker.addTo(markersGroup).bindPopup(createProposition(element));
 };
 
-const renderMarkers = (array) => {
-  array.forEach((element) => {
-    renderMarker(element);
+const renderMarkers = (ads) => {
+  ads.forEach((ad) => {
+    renderMarker(ad);
   });
 };
 

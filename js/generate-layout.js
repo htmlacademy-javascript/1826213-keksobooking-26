@@ -20,9 +20,9 @@ const roomName = (value) => {
   }
 };
 
-const createProposition = (obj) => {
-  const {avatar} = obj.author;
-  const {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos} = obj.offer;
+const createProposition = (ad) => {
+  const {avatar} = ad.author;
+  const {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos} = ad.offer;
   const postItem = cardTemplateElement.cloneNode(true);
   const offerAvatar = postItem.querySelector('.popup__avatar');
   const offerTitle = postItem.querySelector('.popup__title');

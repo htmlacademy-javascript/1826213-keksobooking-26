@@ -73,23 +73,23 @@ const getFilteredAds = (array) => {
 
 const mapFilterUpdateHandler = () => {
   mapFiltersElement.addEventListener('change', debounce(async () => {
-    const data = await getData();
+    const ads = await getData();
     clearMarkers();
-    renderMarkers(getFilteredAds(data));
+    renderMarkers(getFilteredAds(ads));
   }, DEBOUNCE_DELAY)
   );
 };
 
 const startMapFilter = async () => {
-  const data = await getData();
-  renderMarkers(getFilteredAds(data));
+  const ads = await getData();
+  renderMarkers(getFilteredAds(ads));
 };
 
 const resetMapFilters = async () => {
-  const data = await getData();
+  const ads = await getData();
   mapFiltersElement.reset();
   clearMarkers();
-  renderMarkers(getFilteredAds(data));
+  renderMarkers(getFilteredAds(ads));
 };
 
 export {resetMapFilters, startMapFilter, mapFilterUpdateHandler};
