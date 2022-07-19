@@ -2,13 +2,6 @@ import {getData} from './api.js';
 import {clearMarkers, renderMarkers} from './map.js';
 import {debounce} from './utils.js';
 
-const mapFilters = document.querySelector('.map__filters');
-const mapTypeFilter = mapFilters.querySelector('#housing-type');
-const mapPriceFilter = mapFilters.querySelector('#housing-price');
-const mapRoomsFilter = mapFilters.querySelector('#housing-rooms');
-const mapGuestsFilter = mapFilters.querySelector('#housing-guests');
-const mapFeaturesFilter = mapFilters.querySelector('#housing-features');
-
 const DEBOUNCE_DELAY = 500;
 const MAX_OBJECTS_VALUE = 10;
 const SELECT_DEFAULT_VALUE = 'any';
@@ -32,19 +25,28 @@ const PRICE_FILTER_VALUES = {
   },
 };
 
+const mapFiltersElement = document.querySelector('.map__filters');
+const mapTypeFilterElement = mapFiltersElement.querySelector('#housing-type');
+const mapPriceFilterElement = mapFiltersElement.querySelector('#housing-price');
+const mapRoomsFilterElement = mapFiltersElement.querySelector('#housing-rooms');
+const mapGuestsFilterElement = mapFiltersElement.querySelector('#housing-guests');
+const mapFeaturesFilterElement = mapFiltersElement.querySelector('#housing-features');
+
 const getFilteredAds = (array) => {
-  const filterType = (ad) => mapTypeFilter.value === ad.offer.type || mapTypeFilter.value === SELECT_DEFAULT_VALUE;
-  const filterPrice = (ad) => (ad.offer.price >= PRICE_FILTER_VALUES[mapPriceFilter.value].from && ad.offer.price <= PRICE_FILTER_VALUES[mapPriceFilter.value].to);
-  const filterRooms = (ad) => ad.offer.rooms.toString() === mapRoomsFilter.value || mapRoomsFilter.value === SELECT_DEFAULT_VALUE;
-  const filterGuests = (ad) => ad.offer.guests.toString() === mapGuestsFilter.value || mapGuestsFilter.value === SELECT_DEFAULT_VALUE;
+  const filterType = (ad) => mapTypeFilterElement.value === ad.offer.type || mapTypeFilterElement.value === SELECT_DEFAULT_VALUE;
+  const filterPrice = (ad) => (ad.offer.price >= PRICE_FILTER_VALUES[mapPriceFilterElement.value].from && ad.offer.price <= PRICE_FILTER_VALUES[mapPriceFilterElement.value].to);
+  const filterRooms = (ad) => ad.offer.rooms.toString() === mapRoomsFilterElement.value || mapRoomsFilterElement.value === SELECT_DEFAULT_VALUE;
+  const filterGuests = (ad) => ad.offer.guests.toString() === mapGuestsFilterElement.value || mapGuestsFilterElement.value === SELECT_DEFAULT_VALUE;
 
   const filterFeatures = (ad) => {
     const filtersFeatures = [];
-    const checkedFilters = mapFeaturesFilter.querySelectorAll('input:checked');
+    const checkedFilters = mapFeaturesFilterElement.querySelectorAll('input:checked');
     checkedFilters.forEach((el) => filtersFeatures.push(el.value));
+
     if (ad.offer.features){
       return filtersFeatures.every((feature) => ad.offer.features.includes(feature));
     }
+
     return false;
   };
 
@@ -70,7 +72,7 @@ const getFilteredAds = (array) => {
 };
 
 const mapFilterUpdateHandler = () => {
-  mapFilters.addEventListener('change', debounce(async () => {
+  mapFiltersElement.addEventListener('change', debounce(async () => {
     const data = await getData();
     clearMarkers();
     renderMarkers(getFilteredAds(data));
@@ -78,16 +80,16 @@ const mapFilterUpdateHandler = () => {
   );
 };
 
-const startFilter = async () => {
+const startMapFilter = async () => {
   const data = await getData();
   renderMarkers(getFilteredAds(data));
 };
 
 const resetMapFilters = async () => {
   const data = await getData();
-  mapFilters.reset();
+  mapFiltersElement.reset();
   clearMarkers();
   renderMarkers(getFilteredAds(data));
 };
 
-export {resetMapFilters, startFilter, mapFilterUpdateHandler};
+export {resetMapFilters, startMapFilter, mapFilterUpdateHandler};

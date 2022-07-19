@@ -1,7 +1,3 @@
-const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
-const checkAvailability = (templateElement, value) => (value) ? value : templateElement.remove();
-
 const CONVERT_HOUSING_TYPES = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -9,6 +5,10 @@ const CONVERT_HOUSING_TYPES = {
   palace: 'Дворец',
   hotel: 'Отель',
 };
+
+const cardTemplateElement = document.querySelector('#card').content.querySelector('.popup');
+
+const checkAvailability = (templateElement, value) => (value) ? value : templateElement.remove();
 
 const roomName = (value) => {
   if(value === 1) {
@@ -23,7 +23,7 @@ const roomName = (value) => {
 const createProposition = (obj) => {
   const {avatar} = obj.author;
   const {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos} = obj.offer;
-  const postItem = cardTemplate.cloneNode(true);
+  const postItem = cardTemplateElement.cloneNode(true);
   const offerAvatar = postItem.querySelector('.popup__avatar');
   const offerTitle = postItem.querySelector('.popup__title');
   const offerAddress = postItem.querySelector('.popup__text--address');
