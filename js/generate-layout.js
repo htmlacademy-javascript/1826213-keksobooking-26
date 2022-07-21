@@ -10,14 +10,13 @@ const cardTemplateElement = document.querySelector('#card').content.querySelecto
 
 const checkAvailability = (templateElement, value) => (value) ? value : templateElement.remove();
 
-const roomName = (value) => {
+const getCorrectRoomName = (value) => {
   if(value === 1) {
     return 'комната';
   } else if (value >= 2 && value <= 4) {
     return 'комнаты';
-  } else {
-    return 'комнат';
   }
+  return 'комнат';
 };
 
 const createProposition = (ad) => {
@@ -40,7 +39,7 @@ const createProposition = (ad) => {
   offerAddress.textContent = checkAvailability(offerAddress, address);
   offerPrice.textContent = checkAvailability(offerPrice, `${price} р/ночь`);
   offerType.textContent = checkAvailability(offerType, CONVERT_HOUSING_TYPES[type]);
-  offerCapacity.textContent = `${rooms} ${roomName(rooms)} для ${guests} ${(guests > 1) ? 'гостей' : 'гостя'}`;
+  offerCapacity.textContent = `${rooms} ${getCorrectRoomName(rooms)} для ${guests} ${(guests > 1) ? 'гостей' : 'гостя'}`;
   offerTime.textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
 
   if (features) {
