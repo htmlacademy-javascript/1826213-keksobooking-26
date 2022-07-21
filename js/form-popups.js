@@ -23,22 +23,22 @@ const showErrorMessagePopup = (errorMessage) => {
     message.remove();
   });
 
-  const eventOnEsc = (evt) => {
+  const removeEscHandler = (evt) => {
     if (evt.keyCode === 27) {
       message.remove();
-      document.removeEventListener('keydown', eventOnEsc);
+      document.removeEventListener('keydown', removeEscHandler);
     }
   };
 
-  document.addEventListener('keydown', eventOnEsc);
+  document.addEventListener('keydown', removeEscHandler);
 
 
-  const eventOnClick = () => {
-    document.removeEventListener('click', eventOnClick);
+  const removeClickHandler = () => {
+    document.removeEventListener('click', removeClickHandler);
     message.remove();
   };
 
-  document.addEventListener('click', eventOnClick);
+  document.addEventListener('click', removeClickHandler);
 };
 
 export {showSuccessMessagePopup, showErrorMessagePopup};
